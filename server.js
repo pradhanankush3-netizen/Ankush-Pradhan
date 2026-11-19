@@ -17,7 +17,8 @@ const MIME_TYPES = {
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
   '.webp': 'image/webp',
-  '.mp4': 'video/mp4'
+  '.mp4': 'video/mp4',
+  '.zip': 'application/zip'
 };
 
 const server = http.createServer((req, res) => {
@@ -49,12 +50,18 @@ const server = http.createServer((req, res) => {
       ? 'no-cache, no-store, must-revalidate'
       : 'public, max-age=86400';
 
-    res.writeHead(200, {
+    const headers = {
       'Content-Type': contentType,
       'Content-Length': stats.size,
       'Cache-Control': cacheControl,
       'Access-Control-Allow-Origin': '*'
-    });
+    };
+
+    if (ext === '.zip') {
+      headers['Content-Disposition'] = `attachment; filename="${path.basename(safePath)}"`;
+    }
+
+    res.writeHead(200, headers);
 
     fs.createReadStream(safePath).pipe(res);
   });

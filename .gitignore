@@ -4,6 +4,7 @@
 Shoots-20261118T045739Z-1-001.zip
 Shoots-20261118T045739Z-1-001/
 compressed/
+*.zip
 
 # Server logs & runtime
 server.log
