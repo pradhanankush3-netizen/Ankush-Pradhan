@@ -1,0 +1,12 @@
+# Git ignore for Ankush Pradhan Portfolio
+
+# Large raw archive archives exceeding GitHub 100MB hard limit
+Shoots-20261118T045739Z-1-001.zip
+Shoots-20261118T045739Z-1-001/
+compressed/
+
+# Server logs & runtime
+server.log
+server.err
+.DS_Store
+Thumbs.db

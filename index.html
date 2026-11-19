@@ -1,0 +1,2807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ankush Pradhan | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100%;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a30;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #444450;
+    }
+
+    /* Background Fixed Canvas (Directly Visible, Zero Blur or Overlay) */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Header Nav Bar - Completely Transparent */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 24px 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      background: transparent;
+    }
+
+    .brand-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+      transition: opacity 0.3s ease;
+    }
+
+    .brand-logo:hover {
+      opacity: 0.8;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: #ffffff;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Main Scrolling Container - Content Placed Directly on Background */
+    #main-content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+    }
+
+    /* ========================================================
+       SECTION 1: OVERVIEW (DIRECTLY ON BACKGROUND)
+       ======================================================== */
+    #hero-section {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 120px 6vw 80px 6vw;
+      position: relative;
+    }
+
+    .left-column {
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .main-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(38px, 4.4vw, 58px);
+      font-weight: 700;
+      letter-spacing: 2px;
+      line-height: 1.1;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 32px;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .bio-text {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(13px, 1.05vw, 15px);
+      font-weight: 400;
+      line-height: 1.68;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 22px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .bio-text:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .right-column {
+      max-width: 440px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 4vh;
+    }
+
+    .service-row {
+      padding: 14px 0 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .service-row:hover,
+    .service-row.active {
+      border-bottom-color: #ffffff;
+      transform: translateX(-4px);
+    }
+
+    .service-row h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(20px, 1.7vw, 24px);
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      letter-spacing: 0.3px;
+      margin-bottom: 5px;
+      transition: color 0.3s ease;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+    }
+
+    .service-row:hover h2,
+    .service-row.active h2 {
+      color: #ffffff;
+    }
+
+    .service-row p {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(12.5px, 0.95vw, 13.5px);
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.82);
+      transition: color 0.3s ease;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .service-row:hover p,
+    .service-row.active p {
+      color: #ffffff;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.8;
+      animation: floatHint 2s infinite ease-in-out;
+    }
+
+    .scroll-hint span {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    @keyframes floatHint {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 6px); }
+    }
+
+    /* ========================================================
+       SHARED SECTION STYLES (DIRECT ON BACKGROUND, ZERO BLUR)
+       ======================================================== */
+    .section-wrapper {
+      min-height: 100vh;
+      width: 100%;
+      padding: 120px 6vw 100px 6vw;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+    }
+
+    .section-main-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .section-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 12px;
+      display: block;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .section-big-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(44px, 5.5vw, 80px);
+      font-weight: 900;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95), 0 2px 10px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Featured Content Card - Transparent, Direct on Background */
+    .content-featured-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .content-featured-card.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .content-media-col {
+      flex: 1;
+      max-width: 520px;
+    }
+
+    .content-img-wrapper {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .content-img-wrapper:hover {
+      transform: scale(1.02);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.95);
+    }
+
+    .content-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .img-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(0, 0, 0, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .content-info-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .content-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .content-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 5px 12px;
+      border-radius: 4px;
+      color: #ffffff;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .content-year {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.7);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .content-headline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(26px, 2.8vw, 38px);
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 22px;
+      line-height: 1.2;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .content-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(13.5px, 1.05vw, 15px);
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 16px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .content-desc:last-of-type {
+      margin-bottom: 26px;
+    }
+
+    .content-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .tag:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.6);
+      color: #ffffff;
+    }
+
+    /* Gallery Card - Transparent, Direct on Background */
+    .content-gallery-card {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 32px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .gallery-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 8px;
+      display: block;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .gallery-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(24px, 2.5vw, 34px);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1px;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95);
+    }
+
+    .gallery-subtitle {
+      max-width: 500px;
+      font-size: 13.5px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .gallery-frame {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.8);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+    }
+
+    .gallery-frame:hover {
+      transform: scale(1.01);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .gallery-frame:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .zoom-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #ffffff;
+      transform: translateY(8px);
+      transition: transform 0.35s ease;
+    }
+
+    .gallery-frame:hover .zoom-btn {
+      transform: translateY(0);
+    }
+
+    /* 3-Card Photo Grids (Commercial & Pre-Wedding) */
+    .photo-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 10px;
+    }
+
+    .grid-photo-card {
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+    }
+
+    .grid-photo-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .grid-img-box {
+      width: 100%;
+      height: 290px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .grid-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .grid-photo-card:hover .grid-img-box img {
+      transform: scale(1.05);
+    }
+
+    .grid-photo-info {
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    .grid-photo-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .grid-photo-desc {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.82);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    /* ========================================================
+       SECTION: VIDEO EDITING (DIRECT ON BACKGROUND, ZERO BLUR)
+       ======================================================== */
+    .video-showcase-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.88);
+      background: #000;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+    }
+
+    .video-showcase-wrapper:hover {
+      transform: scale(1.015);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .video-player,
+    .video-player-rotated {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 56.25%;
+      height: 177.7778%;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+
+    .video-player-native {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+
+    .video-showcase-wrapper:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+    }
+
+    .video-showcase-wrapper:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+    }
+
+    /* 9:16 Vertical Reel Player */
+    .video-reel-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 9 / 16;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.88);
+      background: #000;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+    }
+
+    .video-reel-wrapper:hover {
+      transform: scale(1.02);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .video-player-vertical {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+
+    .video-reel-wrapper:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      border-radius: 0;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-reel-wrapper:fullscreen .video-player-vertical {
+      width: auto;
+      height: 100vh;
+      max-width: 100vw;
+      object-fit: contain;
+    }
+
+    .video-controls-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 65%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 5;
+    }
+
+    .video-showcase-wrapper:hover .video-controls-overlay,
+    .video-controls-overlay.active {
+      opacity: 1;
+    }
+
+    .video-progress-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: height 0.2s ease;
+    }
+
+    .video-progress-container:hover {
+      height: 6px;
+    }
+
+    .video-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #ffffff;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .video-controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
+
+    .video-ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .video-btn {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.9;
+    }
+
+    .video-btn:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .video-time {
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      color: rgba(255, 255, 255, 0.85);
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .video-badge-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.95);
+      z-index: 4;
+      pointer-events: none;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .video-badge-dot {
+      width: 7px;
+      height: 7px;
+      background: #ff3344;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    /* ========================================================
+       SECTION 5: SERVICES & SPECIALIZATIONS (TRANSPARENT)
+       ======================================================== */
+    #services-section {
+      min-height: 100vh;
+      width: 100%;
+      padding: 120px 6vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-header {
+      margin-bottom: 50px;
+    }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(32px, 3.6vw, 48px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .service-card {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 36px 30px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .service-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 20px;
+      display: block;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .card-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .card-subtitle {
+      font-size: 13.5px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 16px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .card-detail {
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 16px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    /* ========================================================
+       SECTION 6: CREATIVE VISION & STATEMENT (TRANSPARENT)
+       ======================================================== */
+    #vision-section {
+      min-height: 90vh;
+      width: 100%;
+      padding: 100px 6vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .vision-container {
+      max-width: 860px;
+      background: transparent;
+      border: none;
+      padding: 40px 0;
+    }
+
+    .vision-quote {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(22px, 2.6vw, 36px);
+      font-weight: 600;
+      line-height: 1.4;
+      color: #ffffff;
+      margin-bottom: 32px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95);
+    }
+
+    .vision-desc {
+      font-size: clamp(14px, 1.1vw, 16px);
+      font-weight: 400;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 680px;
+      margin: 0 auto 36px auto;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+    }
+
+    .vision-badges {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+
+    .badge-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .badge-val {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .badge-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    /* ========================================================
+       SECTION 7: CONTACT & COLLABORATION (TRANSPARENT)
+       ======================================================== */
+    #contact-section {
+      min-height: calc(100vh - 65px);
+      width: 100%;
+      padding: 90px 6vw 40px 6vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .contact-card {
+      max-width: 720px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 20px 0;
+      margin-bottom: 0;
+    }
+
+    .contact-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
+    }
+
+    .contact-sub {
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 36px;
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .contact-channels {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 32px 0 44px 0;
+      width: 100%;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 26px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 40px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #ffffff;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .contact-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+      color: #ffffff;
+    }
+
+    .contact-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .contact-text-group {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .contact-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .contact-val {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 0.4px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 16px 40px;
+      background: #ffffff;
+      color: #000000;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      background: #e6e6e6;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 24px 20px 24px 20px;
+      margin: 0;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      z-index: 10;
+      box-sizing: border-box;
+    }
+
+    /* Fixed Bottom Scroll Progress Bar */
+    .fixed-progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.15);
+      z-index: 60;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.6), #ffffff);
+      transition: width 0.05s linear;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 40px;
+    }
+
+    .lightbox-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .lightbox-modal.active .lightbox-img {
+      transform: scale(1);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-size: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 992px) {
+      header {
+        padding: 18px 5vw;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      #hero-section {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 100px 5vw 60px 5vw;
+      }
+
+      .left-column {
+        max-width: 100%;
+        margin-bottom: 40px;
+      }
+
+      .right-column {
+        max-width: 100%;
+        margin-top: 0;
+      }
+
+      .section-wrapper {
+        padding: 80px 5vw;
+        gap: 50px;
+      }
+
+      .content-featured-card,
+      .content-featured-card.reverse {
+        flex-direction: column;
+        padding: 0;
+        gap: 30px;
+      }
+
+      .content-media-col {
+        max-width: 100%;
+      }
+
+      .content-gallery-card {
+        padding: 0;
+      }
+
+      #services-section,
+      #vision-section {
+        padding: 80px 5vw;
+      }
+
+      #contact-section {
+        min-height: auto;
+        padding: 60px 5vw 30px 5vw;
+      }
+
+      .vision-container,
+      .contact-card {
+        padding: 20px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <a href="#hero-section" class="brand-logo">ANKUSH PRADHAN</a>
+    <ul class="nav-links">
+      <li><a href="#hero-section">Overview</a></li>
+      <li><a href="#projects-section">Street</a></li>
+      <li><a href="#products-section">Products</a></li>
+      <li><a href="#wedding-section">Wedding</a></li>
+      <li><a href="#video-editing-section">Video Editing</a></li>
+      <li><a href="#services-section">Services</a></li>
+      <li><a href="#vision-section">Vision</a></li>
+      <li><a href="#contact-section">Contact</a></li>
+    </ul>
+  </header>
+
+  <!-- Background Fixed Canvas Animation (Directly Visible, Completely Unobstructed) -->
+  <div id="canvas-container">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <!-- Main Scrolling Content Directly on Background -->
+  <main id="main-content">
+
+    <!-- ========================================================
+         SECTION 1: OVERVIEW (DIRECTLY ON BACKGROUND)
+         ======================================================== -->
+    <section id="hero-section">
+      <!-- Left Column: Name & 3 Bio Paragraphs -->
+      <div class="left-column">
+        <h1 class="main-title">
+          ANKUSH<br>PRADHAN
+        </h1>
+
+        <p class="bio-text">
+          I am a passionate Photographer, Videographer, and Video Editor with a creative vision for capturing beautiful moments and transforming them into memorable visual stories.
+        </p>
+
+        <p class="bio-text">
+          I specialize in photography, cinematic videography, event coverage, creative video production, and professional video editing. I enjoy experimenting with different camera angles, lighting techniques, compositions, and editing styles to create visually engaging content.
+        </p>
+
+        <p class="bio-text">
+          My goal is to capture every moment with creativity, emotion, and perfection while delivering high-quality visual experiences.
+        </p>
+      </div>
+
+      <!-- Right Column: 4 Services with Dividers -->
+      <div class="right-column">
+        <div class="service-row" data-target="#services-section">
+          <h2>Photography</h2>
+          <p>Portrait, fashion, event, product and creative photography.</p>
+        </div>
+
+        <div class="service-row" data-target="#services-section">
+          <h2>Videography</h2>
+          <p>Cinematic shooting, event coverage and promotional videos.</p>
+        </div>
+
+        <div class="service-row" data-target="#video-editing-section">
+          <h2>Video Editing</h2>
+          <p>Professional editing, transitions, storytelling and reels.</p>
+        </div>
+
+        <div class="service-row" data-target="#services-section">
+          <h2>Colour Grading</h2>
+          <p>Cinematic tones, colour correction and visual enhancement.</p>
+        </div>
+      </div>
+
+      <div class="scroll-hint">
+        <span>Scroll to explore</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: rgba(255,255,255,0.75);">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 2: STREET & CULTURAL PROJECTS (DIRECTLY ON BACKGROUND)
+         ======================================================== -->
+    <section id="projects-section" class="section-wrapper">
+      <!-- Section Title -->
+      <div class="section-main-header">
+        <span class="section-tag">Featured Work</span>
+        <h2 class="section-big-title">STREET & CULTURE</h2>
+      </div>
+
+      <!-- Street Photography Feature (Slide 1) -->
+      <div class="content-featured-card">
+        <div class="content-media-col">
+          <div class="content-img-wrapper" onclick="openLightbox('assets/projects/street-hero.jpg')">
+            <img src="assets/projects/street-hero.jpg" alt="Street Photography - Ganga Aarti Ceremony" class="content-img" loading="lazy">
+            <div class="img-badge">Ganga Aarti Ceremony • Varanasi</div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">01 / DOCUMENTARY</span>
+            <span class="content-year">Street Series</span>
+          </div>
+          <h3 class="content-headline">STREET PHOTOGRAPHY</h3>
+          <p class="content-desc">
+            Passionate about capturing the beauty of everyday life through street photography and cinematic street videography. Skilled in documenting real-life moments, urban culture, street lifestyles, candid expressions, architecture, and the vibrant atmosphere of everyday surroundings.
+          </p>
+          <p class="content-desc">
+            Focused on capturing authentic emotions, unique perspectives, natural lighting, and storytelling through creative compositions and artistic camera angles.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Street Photography</span>
+            <span class="tag">Urban Culture</span>
+            <span class="tag">Candid Moments</span>
+            <span class="tag">Cinematic Light</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Street Photography Gallery Archive (Slide 2) -->
+      <div class="content-gallery-card">
+        <div class="gallery-header">
+          <div>
+            <span class="gallery-tag">Curated Archive</span>
+            <h3 class="gallery-title">The Street Life Series</h3>
+          </div>
+          <p class="gallery-subtitle">
+            Documenting sacred temple rituals, cycle rickshaws, bustling street bazaars, and candid human expressions across India.
+          </p>
+        </div>
+
+        <div class="gallery-frame" onclick="openLightbox('assets/projects/projects-slide-2.jpg')">
+          <img src="assets/projects/projects-slide-2.jpg" alt="Street Photography Gallery Series by Ankush Pradhan" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="zoom-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+              <span>Click to view full photo archive</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Festival & Cultural Photography (Slide 3) -->
+      <div class="content-featured-card reverse">
+        <div class="content-media-col">
+          <div class="content-img-wrapper" onclick="openLightbox('assets/projects/festival-hero.jpg')">
+            <img src="assets/projects/festival-hero.jpg" alt="Festival and Fire Performance Photography" class="content-img" loading="lazy">
+            <div class="img-badge">Fire Performance • Live Festival</div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">02 / CULTURAL HERITAGE</span>
+            <span class="content-year">Festival Series</span>
+          </div>
+          <h3 class="content-headline">FESTIVAL & CULTURAL PHOTOGRAPHY</h3>
+          <p class="content-desc">
+            Capturing the raw energy, spiritual atmosphere, and vibrant traditions of Indian festivals through creative photography. This frame showcases a traditional fire performance, dramatic flames, cultural expressions, and the excitement of a live celebration.
+          </p>
+          <p class="content-desc">
+            Using contrasting colours, natural moments, and creative composition to turn cultural experiences into unforgettable visual stories.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Traditional Festivals</span>
+            <span class="tag">Fire Performance</span>
+            <span class="tag">Spiritual Energy</span>
+            <span class="tag">Dramatic Composition</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 3: PRODUCT PHOTOGRAPHY (DIRECTLY ON BACKGROUND)
+         ======================================================== -->
+    <section id="products-section" class="section-wrapper">
+      <!-- Section Title Matching Slide 1 -->
+      <div class="section-main-header">
+        <span class="section-tag">Commercial & Luxury</span>
+        <h2 class="section-big-title">PRODUCT PHOTOGRAPHY</h2>
+      </div>
+
+      <!-- Product Feature: Fine Gold Necklace -->
+      <div class="content-featured-card">
+        <div class="content-media-col">
+          <div class="content-img-wrapper" onclick="openLightbox('assets/products/necklace-hero.jpg')">
+            <img src="assets/products/necklace-hero.jpg" alt="Fine Gold Necklace - Luxury Product Photography" class="content-img" loading="lazy">
+            <div class="img-badge">Heritage Gold Necklace • Luxury Editorial</div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">03 / LUXURY & COMMERCIAL</span>
+            <span class="content-year">Product Series</span>
+          </div>
+          <h3 class="content-headline">PRODUCT PHOTOGRAPHY</h3>
+          <p class="content-desc">
+            Specialized in capturing high-quality product photographs and cinematic product videos that highlight the beauty, design, details, and unique features of every product.
+          </p>
+          <p class="content-desc">
+            Focused on creative compositions, professional lighting, attractive backgrounds, and detailed close-up shots to create visually appealing images that enhance brand identity and product presentation.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Fine Jewelry</span>
+            <span class="tag">Macro Detail</span>
+            <span class="tag">Studio Lighting</span>
+            <span class="tag">Brand Identity</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Gallery: Gold & Diamond Jewelry Archive (Slide 2) -->
+      <div class="content-gallery-card">
+        <div class="gallery-header">
+          <div>
+            <span class="gallery-tag">Luxury Collection</span>
+            <h3 class="gallery-title">Fine Jewelry & Craftsmanship</h3>
+          </div>
+          <p class="gallery-subtitle">
+            Highlighting pure gold bangles, diamond bracelets, royal chokers, and intricate necklace pendants draped across luxury silk textures.
+          </p>
+        </div>
+
+        <div class="gallery-frame" onclick="openLightbox('assets/products/product-slide-2.jpg')">
+          <img src="assets/products/product-slide-2.jpg" alt="Luxury Gold and Diamond Jewelry Photography" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="zoom-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+              <span>Click to view full jewelry collection</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Luxury Jewellery Commercial Film Feature: Malabar Gold & Diamonds (16:9 Landscape Mode) -->
+      <div class="content-featured-card">
+        <div class="content-media-col" style="flex: 1 1 560px; width: 100%; max-width: 640px;">
+          <div id="video-showcase-wrapper-malabar" class="video-showcase-wrapper">
+            <div class="video-badge-top">
+              <span class="video-badge-dot"></span>
+              <span>BRAND SHOWCASE • 16:9</span>
+            </div>
+            <video
+              id="showcase-video-malabar"
+              class="video-player-native"
+              src="assets/videos/jewellery-video-2.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="video-controls-overlay">
+              <div id="video-progress-container-malabar" class="video-progress-container">
+                <div id="video-progress-fill-malabar" class="video-progress-fill"></div>
+              </div>
+              <div class="video-controls-bar">
+                <div class="video-ctrl-group">
+                  <button id="video-play-btn-malabar" class="video-btn" aria-label="Play or Pause">
+                    <svg id="video-play-icon-malabar" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="video-pause-icon-malabar" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  </button>
+                  <button id="video-mute-btn-malabar" class="video-btn" aria-label="Mute or Unmute">
+                    <svg id="video-volume-high-icon-malabar" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="video-volume-mute-icon-malabar" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                  <span id="video-time-display-malabar" class="video-time">0:00 / 0:00</span>
+                </div>
+                <div class="video-ctrl-group">
+                  <button id="video-fullscreen-btn-malabar" class="video-btn" aria-label="Fullscreen">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">COMMERCIAL SHOWCASE</span>
+            <span class="content-year">Brand Exhibition Film</span>
+          </div>
+          <h3 class="content-headline">MALABAR GOLD & DIAMONDS</h3>
+          <p class="content-desc">
+            A grand commercial film documenting the flagship showroom and "Artistry Show" exhibition for Malabar Gold & Diamonds. Features architectural exterior tracking, giant digital LED jewelry billboards, and high-fashion bridal jewelry displays.
+          </p>
+          <p class="content-desc">
+            Highlights the exquisite "Mine Diamonds Unlimited" curated collection, ceremonial inauguration, and fine craftsmanship on pure gold and uncut diamond masterpieces.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Malabar Gold</span>
+            <span class="tag">Artistry Show</span>
+            <span class="tag">Diamond Exhibition</span>
+            <span class="tag">Flagship Architecture</span>
+            <span class="tag">16:9 Landscape</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Luxury Jewellery Commercial Film Feature (Damayanti Jewellers) -->
+      <div class="content-featured-card reverse">
+        <div class="content-media-col" style="flex: 0 0 320px; max-width: 340px; margin: 0 auto;">
+          <div id="video-showcase-wrapper-jewel" class="video-reel-wrapper">
+            <div class="video-badge-top">
+              <span class="video-badge-dot"></span>
+              <span>COMMERCIAL FILM • 9:16</span>
+            </div>
+            <video
+              id="showcase-video-jewel"
+              class="video-player-vertical"
+              src="assets/videos/jewellery-shoot.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="video-controls-overlay">
+              <div id="video-progress-container-jewel" class="video-progress-container">
+                <div id="video-progress-fill-jewel" class="video-progress-fill"></div>
+              </div>
+              <div class="video-controls-bar">
+                <div class="video-ctrl-group">
+                  <button id="video-play-btn-jewel" class="video-btn" aria-label="Play or Pause">
+                    <svg id="video-play-icon-jewel" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="video-pause-icon-jewel" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  </button>
+                  <button id="video-mute-btn-jewel" class="video-btn" aria-label="Mute or Unmute">
+                    <svg id="video-volume-high-icon-jewel" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="video-volume-mute-icon-jewel" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                  <span id="video-time-display-jewel" class="video-time">0:00 / 0:00</span>
+                </div>
+                <div class="video-ctrl-group">
+                  <button id="video-fullscreen-btn-jewel" class="video-btn" aria-label="Fullscreen">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">COMMERCIAL FILM</span>
+            <span class="content-year">Retail Promotional Film</span>
+          </div>
+          <h3 class="content-headline">DAMAYANTI JEWELLERS COMMERCIAL</h3>
+          <p class="content-desc">
+            A promotional showroom tour and brand commercial crafted for Damayanti Jewellers. Features illuminated facade visuals, a traditional folded-hands Namaste welcome, and macro close-ups of BIS 916 hallmarked pure gold necklace sets, regal bangles, and diamond rings.
+          </p>
+          <p class="content-desc">
+            Engineered with high-clarity studio lighting, smooth gliding movement across glass counters, and luxury color rendering tailored to accentuate the warm brilliance of pure gold.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Showroom Tour</span>
+            <span class="tag">BIS 916 Gold</span>
+            <span class="tag">Commercial Film</span>
+            <span class="tag">Macro Detail</span>
+            <span class="tag">Luxury Brand</span>
+          </div>
+        </div>
+      </div>
+      <div class="content-gallery-card">
+        <div class="gallery-header">
+          <div>
+            <span class="gallery-tag">Consumer Lifestyle</span>
+            <h3 class="gallery-title">Commercial & Brand Aesthetics</h3>
+          </div>
+          <p class="gallery-subtitle">
+            Creative lighting, rich textural contrasts, and deliberate angles that elevate modern consumer brands.
+          </p>
+        </div>
+
+        <div class="photo-grid-3">
+          <div class="grid-photo-card" onclick="openLightbox('assets/products/product-denver.jpg')">
+            <div class="grid-img-box">
+              <img src="assets/products/product-denver.jpg" alt="Denver Body Spray Commercial Photography" loading="lazy">
+            </div>
+            <div class="grid-photo-info">
+              <h4 class="grid-photo-title">Denver Hamilton Deodorant</h4>
+              <p class="grid-photo-desc">Rich red velvet drape with starlight atmosphere.</p>
+            </div>
+          </div>
+
+          <div class="grid-photo-card" onclick="openLightbox('assets/products/product-coin.jpg')">
+            <div class="grid-img-box">
+              <img src="assets/products/product-coin.jpg" alt="Vintage Coin Macro Photography" loading="lazy">
+            </div>
+            <div class="grid-photo-info">
+              <h4 class="grid-photo-title">Vintage Coin Macro</h4>
+              <p class="grid-photo-desc">Directional side-lighting on cracked earth texture.</p>
+            </div>
+          </div>
+
+          <div class="grid-photo-card" onclick="openLightbox('assets/products/product-realme.jpg')">
+            <div class="grid-img-box">
+              <img src="assets/products/product-realme.jpg" alt="Realme Wireless Earbuds Product Photography" loading="lazy">
+            </div>
+            <div class="grid-photo-info">
+              <h4 class="grid-photo-title">Realme Wireless Earbuds</h4>
+              <p class="grid-photo-desc">Soft studio silhouette highlighting sleek matte contours.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 4: WEDDING PHOTOGRAPHY (NEW: DIRECTLY ON BACKGROUND)
+         ======================================================== -->
+    <section id="wedding-section" class="section-wrapper">
+      <!-- Section Title Matching Slide 1 -->
+      <div class="section-main-header">
+        <span class="section-tag">Timeless Celebrations</span>
+        <h2 class="section-big-title">WEDDING PHOTOGRAPHY</h2>
+      </div>
+
+      <!-- Wedding Couple Feature (Slide 1) -->
+      <div class="content-featured-card">
+        <div class="content-media-col">
+          <div class="content-img-wrapper" onclick="openLightbox('assets/wedding/wedding-hero.jpg')">
+            <img src="assets/wedding/wedding-hero.jpg" alt="Wedding Photography - Couple Portrait" class="content-img" loading="lazy">
+            <div class="img-badge">Wedding Portrait • Grand Celebration</div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">04 / WEDDINGS & CELEBRATIONS</span>
+            <span class="content-year">Wedding Series</span>
+          </div>
+          <h3 class="content-headline">WEDDING PHOTOGRAPHY</h3>
+          <p class="content-desc">
+            Passionate about capturing the beauty, emotions, and unforgettable moments of weddings through creative photography and cinematic videography. Specializing in documenting every special detail, from pre-wedding celebrations and traditional rituals to candid emotions, couple portraits, and grand wedding ceremonies.
+          </p>
+          <p class="content-desc">
+            Focused on capturing natural expressions, beautiful compositions, romantic moments, and timeless memories through creative camera angles, professional lighting, and cinematic storytelling.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Wedding Photography</span>
+            <span class="tag">Couple Portraits</span>
+            <span class="tag">Traditional Rituals</span>
+            <span class="tag">Pre-Wedding Shoots</span>
+            <span class="tag">Cinematic Storytelling</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pre-Wedding Outdoor Romantic Series (Slide 2) -->
+      <div class="content-gallery-card">
+        <div class="gallery-header">
+          <div>
+            <span class="gallery-tag">Outdoor Romance</span>
+            <h3 class="gallery-title">The Pre-Wedding Stories</h3>
+          </div>
+          <p class="gallery-subtitle">
+            Intimate chemistry, scenic temple architecture, lakeside reflections, and authentic candid moments.
+          </p>
+        </div>
+
+        <div class="photo-grid-3">
+          <div class="grid-photo-card" onclick="openLightbox('assets/wedding/prewedding-1.jpg')">
+            <div class="grid-img-box">
+              <img src="assets/wedding/prewedding-1.jpg" alt="Pre-Wedding Shoot Under Tree by Lake" loading="lazy">
+            </div>
+            <div class="grid-photo-info">
+              <h4 class="grid-photo-title">Whispers Under Banyan</h4>
+              <p class="grid-photo-desc">Ancient temple ghat stone monument with forehead kiss.</p>
+            </div>
+          </div>
+
+          <div class="grid-photo-card" onclick="openLightbox('assets/wedding/prewedding-2.jpg')">
+            <div class="grid-img-box">
+              <img src="assets/wedding/prewedding-2.jpg" alt="Pre-Wedding Couple Lake Gaze" loading="lazy">
+            </div>
+            <div class="grid-photo-info">
+              <h4 class="grid-photo-title">Lakeside Affection</h4>
+              <p class="grid-photo-desc">Traditional cream kurta & printed lehenga by sacred lake.</p>
+            </div>
+          </div>
+
+          <div class="grid-photo-card" onclick="openLightbox('assets/wedding/prewedding-3.jpg')">
+            <div class="grid-img-box">
+              <img src="assets/wedding/prewedding-3.jpg" alt="Romantic Pre-Wedding Couple Embrace" loading="lazy">
+            </div>
+            <div class="grid-photo-info">
+              <h4 class="grid-photo-title">Cherished Embrace</h4>
+              <p class="grid-photo-desc">Joyful couple embrace with heritage temple background.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wedding Teaser Film Feature (16:9 Landscape) -->
+      <div class="content-featured-card reverse">
+        <div class="content-media-col" style="flex: 1 1 560px; width: 100%; max-width: 640px;">
+          <div id="video-showcase-wrapper-wedding" class="video-showcase-wrapper">
+            <div class="video-badge-top">
+              <span class="video-badge-dot"></span>
+              <span>WEDDING TEASER • 16:9</span>
+            </div>
+            <video
+              id="showcase-video-wedding"
+              class="video-player-rotated"
+              src="assets/videos/wedding-teaser.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="video-controls-overlay">
+              <div id="video-progress-container-wedding" class="video-progress-container">
+                <div id="video-progress-fill-wedding" class="video-progress-fill"></div>
+              </div>
+              <div class="video-controls-bar">
+                <div class="video-ctrl-group">
+                  <button id="video-play-btn-wedding" class="video-btn" aria-label="Play or Pause">
+                    <svg id="video-play-icon-wedding" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="video-pause-icon-wedding" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  </button>
+                  <button id="video-mute-btn-wedding" class="video-btn" aria-label="Mute or Unmute">
+                    <svg id="video-volume-high-icon-wedding" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="video-volume-mute-icon-wedding" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                  <span id="video-time-display-wedding" class="video-time">0:00 / 0:00</span>
+                </div>
+                <div class="video-ctrl-group">
+                  <button id="video-fullscreen-btn-wedding" class="video-btn" aria-label="Fullscreen">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">CINEMATIC TEASER</span>
+            <span class="content-year">Wedding Highlight Film</span>
+          </div>
+          <h3 class="content-headline">THE WEDDING TEASER</h3>
+          <p class="content-desc">
+            A fast-paced, emotive wedding highlight teaser capturing the vibrancy of Indian traditions — from royal groom preparations and ceremonial safa styling to celebratory Mehendi rituals and candid family portraits.
+          </p>
+          <p class="content-desc">
+            Shot with dynamic handheld camera movement and natural ambient lighting, seamlessly edited to preserve the raw joy and sacred intimacy of the celebration.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Wedding Teaser</span>
+            <span class="tag">Mehendi Ceremony</span>
+            <span class="tag">Groom Styling</span>
+            <span class="tag">Family Portraits</span>
+            <span class="tag">Cinematic 4K</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wedding Ceremonies, Rituals & Celebrations (Slide 3) -->
+      <div class="content-gallery-card">
+        <div class="gallery-header">
+          <div>
+            <span class="gallery-tag">Ceremonial Archive</span>
+            <h3 class="gallery-title">Sacred Rituals & Grand Celebrations</h3>
+          </div>
+          <p class="gallery-subtitle">
+            Documenting emotional hand-kiss vows, sparkler pyro celebrations, royal bridal entrances, holy ceremonial rituals, and bridal portraits.
+          </p>
+        </div>
+
+        <div class="gallery-frame" onclick="openLightbox('assets/wedding/wedding-slide-3.jpg')">
+          <img src="assets/wedding/wedding-slide-3.jpg" alt="Grand Wedding Ceremonies and Rituals Collection" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="zoom-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+              <span>Click to view full ceremony collection</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 5: VIDEO EDITING (DIRECTLY ON BACKGROUND)
+         ======================================================== -->
+    <section id="video-editing-section" class="section-wrapper">
+      <!-- Section Title Matching Slides -->
+      <div class="section-main-header">
+        <span class="section-tag">Post-Production & Motion</span>
+        <h2 class="section-big-title">VIDEO EDITING</h2>
+      </div>
+
+      <!-- Feature Film 1: Royal Bridal & Wedding Film (Forward Layout) -->
+      <div class="content-featured-card">
+        <div class="content-media-col" style="flex: 1 1 560px; width: 100%; max-width: 640px;">
+          <div id="video-showcase-wrapper-1" class="video-showcase-wrapper">
+            <div class="video-badge-top">
+              <span class="video-badge-dot"></span>
+              <span>CINEMATIC FILM • 16:9</span>
+            </div>
+            <video
+              id="showcase-video-1"
+              class="video-player-native"
+              src="assets/videos/bridal-cinematic-film.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="video-controls-overlay">
+              <div id="video-progress-container-1" class="video-progress-container">
+                <div id="video-progress-fill-1" class="video-progress-fill"></div>
+              </div>
+              <div class="video-controls-bar">
+                <div class="video-ctrl-group">
+                  <button id="video-play-btn-1" class="video-btn" aria-label="Play or Pause">
+                    <svg id="video-play-icon-1" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="video-pause-icon-1" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  </button>
+                  <button id="video-mute-btn-1" class="video-btn" aria-label="Mute or Unmute">
+                    <svg id="video-volume-high-icon-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="video-volume-mute-icon-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                  <span id="video-time-display-1" class="video-time">0:00 / 0:00</span>
+                </div>
+                <div class="video-ctrl-group">
+                  <button id="video-fullscreen-btn-1" class="video-btn" aria-label="Fullscreen">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">01 / CINEMATIC BRIDAL FILM</span>
+            <span class="content-year">Wedding Feature</span>
+          </div>
+          <h3 class="content-headline">ROYAL BRIDAL CINEMA</h3>
+          <p class="content-desc">
+            An intimate cinematic bridal portrait capturing elegance, raw emotion, and regal grandeur. Crafted with intentional low-key dramatic spotlighting, deep burgundy shadows, and high-fidelity macro details of heritage bridal jewelry.
+          </p>
+          <p class="content-desc">
+            Features bespoke filmic color grading tailored for rich skin tones, atmospheric soundtrack synchronization, and slow-burn pacing designed to evoke timeless romance.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Bridal Cinema</span>
+            <span class="tag">Dramatic Lighting</span>
+            <span class="tag">Colour Grading</span>
+            <span class="tag">Sound Design</span>
+            <span class="tag">Storytelling</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Film 2: Haldi Dance Celebration Reel (Reverse Layout) -->
+      <div class="content-featured-card reverse">
+        <div class="content-media-col" style="flex: 1 1 560px; width: 100%; max-width: 640px;">
+          <div id="video-showcase-wrapper-2" class="video-showcase-wrapper">
+            <div class="video-badge-top">
+              <span class="video-badge-dot"></span>
+              <span>DANCE CELEBRATION • 16:9</span>
+            </div>
+            <video
+              id="showcase-video-2"
+              class="video-player-rotated"
+              src="assets/videos/dance-celebration-reel.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="video-controls-overlay">
+              <div id="video-progress-container-2" class="video-progress-container">
+                <div id="video-progress-fill-2" class="video-progress-fill"></div>
+              </div>
+              <div class="video-controls-bar">
+                <div class="video-ctrl-group">
+                  <button id="video-play-btn-2" class="video-btn" aria-label="Play or Pause">
+                    <svg id="video-play-icon-2" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="video-pause-icon-2" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  </button>
+                  <button id="video-mute-btn-2" class="video-btn" aria-label="Mute or Unmute">
+                    <svg id="video-volume-high-icon-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="video-volume-mute-icon-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                  <span id="video-time-display-2" class="video-time">0:00 / 0:00</span>
+                </div>
+                <div class="video-ctrl-group">
+                  <button id="video-fullscreen-btn-2" class="video-btn" aria-label="Fullscreen">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">02 / DANCE & ENERGY</span>
+            <span class="content-year">Celebration Reel</span>
+          </div>
+          <h3 class="content-headline">HALDI DANCE CELEBRATION</h3>
+          <p class="content-desc">
+            Electrifying celebration energy captured through dynamic handheld camera work and synchronized visual pacing. Guests celebrating in vibrant yellow and pink festive attire with sunglasses, dancing beneath ceremonial canopies.
+          </p>
+          <p class="content-desc">
+            Engineered with fast cuts, speed ramps, and high-energy music synchronization for viral short-form social engagement.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Haldi Dance</span>
+            <span class="tag">Celebration Reel</span>
+            <span class="tag">Speed Ramping</span>
+            <span class="tag">Handheld Dynamics</span>
+            <span class="tag">High Energy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Film 3: Dynamic Celebration & Motion Reel (Forward Layout) -->
+      <div class="content-featured-card">
+        <div class="content-media-col" style="flex: 1 1 560px; width: 100%; max-width: 640px;">
+          <div id="video-showcase-wrapper-3" class="video-showcase-wrapper">
+            <div class="video-badge-top">
+              <span class="video-badge-dot"></span>
+              <span>MOTION REEL • 16:9</span>
+            </div>
+            <video
+              id="showcase-video-3"
+              class="video-player-rotated"
+              src="assets/videos/video-editing-showcase.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="video-controls-overlay">
+              <div id="video-progress-container-3" class="video-progress-container">
+                <div id="video-progress-fill-3" class="video-progress-fill"></div>
+              </div>
+              <div class="video-controls-bar">
+                <div class="video-ctrl-group">
+                  <button id="video-play-btn-3" class="video-btn" aria-label="Play or Pause">
+                    <svg id="video-play-icon-3" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="video-pause-icon-3" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  </button>
+                  <button id="video-mute-btn-3" class="video-btn" aria-label="Mute or Unmute">
+                    <svg id="video-volume-high-icon-3" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="video-volume-mute-icon-3" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                  <span id="video-time-display-3" class="video-time">0:00 / 0:00</span>
+                </div>
+                <div class="video-ctrl-group">
+                  <button id="video-fullscreen-btn-3" class="video-btn" aria-label="Fullscreen">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">03 / MOTION & REELS</span>
+            <span class="content-year">Festival Edit</span>
+          </div>
+          <h3 class="content-headline">RHYTHMIC CELEBRATION REEL</h3>
+          <p class="content-desc">
+            Transforming live outdoor celebrations and joyful group moments into visual rhythm. Engineered with dynamic speed ramping, invisible whip-pan transitions, and tight beat-matching that hooks social audiences instantly.
+          </p>
+          <p class="content-desc">
+            Balanced vibrant outdoor natural lighting, saturated yellow and pink textiles, and playful candid expressions into a viral, high-retention post-production edit.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Reels</span>
+            <span class="tag">Speed Ramps</span>
+            <span class="tag">Transitions</span>
+            <span class="tag">Beat Sync</span>
+            <span class="tag">Motion Design</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Commercial Promotional Reel: Being Strong Fitness Gym (9:16 Vertical) -->
+      <div class="content-featured-card reverse">
+        <div class="content-media-col" style="flex: 0 0 320px; max-width: 340px; margin: 0 auto;">
+          <div id="video-showcase-wrapper-gym" class="video-reel-wrapper">
+            <div class="video-badge-top">
+              <span class="video-badge-dot"></span>
+              <span>FITNESS PROMO • 9:16</span>
+            </div>
+            <video
+              id="showcase-video-gym"
+              class="video-player-vertical"
+              src="assets/videos/gym-video.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="video-controls-overlay">
+              <div id="video-progress-container-gym" class="video-progress-container">
+                <div id="video-progress-fill-gym" class="video-progress-fill"></div>
+              </div>
+              <div class="video-controls-bar">
+                <div class="video-ctrl-group">
+                  <button id="video-play-btn-gym" class="video-btn" aria-label="Play or Pause">
+                    <svg id="video-play-icon-gym" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="video-pause-icon-gym" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  </button>
+                  <button id="video-mute-btn-gym" class="video-btn" aria-label="Mute or Unmute">
+                    <svg id="video-volume-high-icon-gym" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="video-volume-mute-icon-gym" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                  <span id="video-time-display-gym" class="video-time">0:00 / 0:00</span>
+                </div>
+                <div class="video-ctrl-group">
+                  <button id="video-fullscreen-btn-gym" class="video-btn" aria-label="Fullscreen">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-info-col">
+          <div class="content-meta">
+            <span class="content-badge">04 / COMMERCIAL REEL</span>
+            <span class="content-year">Fitness & Athletics</span>
+          </div>
+          <h3 class="content-headline">BEING STRONG FITNESS COMMERCIAL</h3>
+          <p class="content-desc">
+            High-octane gym and athletic promotional video created for modern fitness centers. Featuring athletes training on "BEING STRONG" commercial strength machines, executing intense tricep bar dips and cable lat pulldowns under dramatic overhead gym lighting.
+          </p>
+          <p class="content-desc">
+            Synchronized with motivating kinetic text overlays, fast-paced rhythm, muscle tension close-ups, and aggressive sound design built to drive fitness membership conversions and social media reach.
+          </p>
+          <div class="content-tags">
+            <span class="tag">Fitness Commercial</span>
+            <span class="tag">Gym Motivation</span>
+            <span class="tag">Kinetic Typography</span>
+            <span class="tag">Sound Design</span>
+            <span class="tag">High Impact</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post-Production Craft Breakdown -->
+      <div class="content-gallery-card">
+        <div class="gallery-header">
+          <div>
+            <span class="gallery-tag">Craft & Methodology</span>
+            <h3 class="gallery-title">Post-Production Disciplines</h3>
+          </div>
+          <p class="gallery-subtitle">
+            Every frame undergoes meticulous synchronization, bespoke sound design, and custom colour science to maximize audience retention.
+          </p>
+        </div>
+
+        <div class="photo-grid-3">
+          <div class="grid-photo-card" style="cursor: default;">
+            <div class="grid-photo-info" style="padding: 28px 24px;">
+              <span class="card-num" style="margin-bottom: 12px;">01 / RHYTHM & PACING</span>
+              <h4 class="grid-photo-title" style="font-size: 18px; margin-bottom: 10px;">Dynamic Cuts & Speed Ramps</h4>
+              <p class="grid-photo-desc" style="line-height: 1.6;">
+                Precision beat-syncing, invisible whip-pans, and rhythmic speed ramping that maintain unbroken visual momentum.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-photo-card" style="cursor: default;">
+            <div class="grid-photo-info" style="padding: 28px 24px;">
+              <span class="card-num" style="margin-bottom: 12px;">02 / AUDITORY IMMERSION</span>
+              <h4 class="grid-photo-title" style="font-size: 18px; margin-bottom: 10px;">Sound Design & Multi-Track Foley</h4>
+              <p class="grid-photo-desc" style="line-height: 1.6;">
+                Layered atmospheric soundscapes, impact risers, custom whooshes, and dialogue isolation that amplify emotional weight.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-photo-card" style="cursor: default;">
+            <div class="grid-photo-info" style="padding: 28px 24px;">
+              <span class="card-num" style="margin-bottom: 12px;">03 / CINEMATIC PALETTE</span>
+              <h4 class="grid-photo-title" style="font-size: 18px; margin-bottom: 10px;">Colour Grading & Film Emulation</h4>
+              <p class="grid-photo-desc" style="line-height: 1.6;">
+                Bespoke LUT creation, log-to-Rec.709 color management, film grain texture, and skin-tone harmony for a distinct filmic look.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 6: SERVICES & SPECIALIZATIONS (TRANSPARENT)
+         ======================================================== -->
+    <section id="services-section">
+      <div class="section-header">
+        <span class="section-tag">Specializations</span>
+        <h2 class="section-title">What I Deliver</h2>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="card-num">01 / DISCIPLINE</span>
+          <h3 class="card-title">Photography</h3>
+          <p class="card-subtitle">Portrait, fashion, event, product and creative photography.</p>
+          <p class="card-detail">Precision lighting, deliberate composition, and authentic portraits tailored for editorial, commercial, and personal branding.</p>
+        </div>
+
+        <div class="service-card">
+          <span class="card-num">02 / DISCIPLINE</span>
+          <h3 class="card-title">Videography</h3>
+          <p class="card-subtitle">Cinematic shooting, event coverage and promotional videos.</p>
+          <p class="card-detail">Dynamic camera movement, cinematic angles, 4K production, and narrative framing that elevates every project.</p>
+        </div>
+
+        <div class="service-card">
+          <span class="card-num">03 / DISCIPLINE</span>
+          <h3 class="card-title">Video Editing</h3>
+          <p class="card-subtitle">Professional editing, transitions, storytelling and reels.</p>
+          <p class="card-detail">Rhythmic cutting, seamless visual transitions, sound design, pacing, and viral short-form reels for maximum engagement.</p>
+        </div>
+
+        <div class="service-card">
+          <span class="card-num">04 / DISCIPLINE</span>
+          <h3 class="card-title">Colour Grading</h3>
+          <p class="card-subtitle">Cinematic tones, colour correction and visual enhancement.</p>
+          <p class="card-detail">Atmospheric LUT crafting, dynamic range balancing, dual-tone aesthetics, and cinematic film emulation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 7: CREATIVE VISION & STATEMENT (TRANSPARENT)
+         ======================================================== -->
+    <section id="vision-section">
+      <div class="vision-container">
+        <blockquote class="vision-quote">
+          "Capturing every moment with creativity, emotion, and perfection while delivering high-quality visual experiences."
+        </blockquote>
+        <p class="vision-desc">
+          Every project is treated as an original canvas. By blending technical mastery in lighting and camera dynamics with modern digital artistry, each frame speaks with emotion, intention, and cinematic depth.
+        </p>
+        <div class="vision-badges">
+          <div class="badge-item">
+            <span class="badge-val">238+</span>
+            <span class="badge-label">Frame Animation</span>
+          </div>
+          <div class="badge-item">
+            <span class="badge-val">4K UHD</span>
+            <span class="badge-label">Cinematic Standard</span>
+          </div>
+          <div class="badge-item">
+            <span class="badge-val">100%</span>
+            <span class="badge-label">Bespoke Vision</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 8: CONTACT & COLLABORATION (TRANSPARENT)
+         ======================================================== -->
+    <section id="contact-section">
+      <div class="contact-card">
+        <h2 class="contact-title">Let's Create Together</h2>
+        <p class="contact-sub">
+          Have an upcoming shoot, commercial video, or creative post-production project? Let's turn your ideas into compelling visual narratives.
+        </p>
+
+        <div class="contact-channels">
+          <!-- Phone Number -->
+          <a href="tel:+918114927317" class="contact-item" title="Call Ankush Pradhan">
+            <span class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </span>
+            <div class="contact-text-group">
+              <span class="contact-label">Direct Line / Phone</span>
+              <span class="contact-val">+91 81149 27317</span>
+            </div>
+          </a>
+
+          <!-- Gmail -->
+          <a href="mailto:pradhanankush3@gmail.com" class="contact-item" title="Email Ankush Pradhan">
+            <span class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <div class="contact-text-group">
+              <span class="contact-label">Email / Inquiries</span>
+              <span class="contact-val">pradhanankush3@gmail.com</span>
+            </div>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/ankushh__09___/#" target="_blank" rel="noopener noreferrer" class="contact-item" title="Instagram Profile">
+            <span class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </span>
+            <div class="contact-text-group">
+              <span class="contact-label">Instagram</span>
+              <span class="contact-val">@ankushh__09___</span>
+            </div>
+          </a>
+        </div>
+
+        <a href="mailto:pradhanankush3@gmail.com?subject=Project%20Inquiry%20-%20Ankush%20Pradhan" class="cta-button">Send Email Inquiry</a>
+      </div>
+    </section>
+
+    <!-- Page Footer (Terminates scroll cleanly where footer ends) -->
+    <footer>
+      <p>© 2026 Ankush Pradhan • Photographer & Videographer. All rights reserved.</p>
+    </footer>
+
+  </main>
+
+  <!-- Bottom Scroll Progress Bar -->
+  <div class="fixed-progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  <!-- Interactive Lightbox Modal -->
+  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="Enlarged Project Visual" onclick="event.stopPropagation()">
+  </div>
+
+  <script>
+    // Lightbox handlers
+    function openLightbox(src) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      modal.classList.add('active');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('active');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Video Showcase Controls (Supports Multiple Video Players)
+    (function initVideoShowcase() {
+      function setupVideo(id) {
+        const videoEl = document.getElementById(`showcase-video-${id}`);
+        const videoWrapper = document.getElementById(`video-showcase-wrapper-${id}`);
+        const playBtn = document.getElementById(`video-play-btn-${id}`);
+        const playIcon = document.getElementById(`video-play-icon-${id}`);
+        const pauseIcon = document.getElementById(`video-pause-icon-${id}`);
+        const muteBtn = document.getElementById(`video-mute-btn-${id}`);
+        const volumeHighIcon = document.getElementById(`video-volume-high-icon-${id}`);
+        const volumeMuteIcon = document.getElementById(`video-volume-mute-icon-${id}`);
+        const fullscreenBtn = document.getElementById(`video-fullscreen-btn-${id}`);
+        const videoProgress = document.getElementById(`video-progress-fill-${id}`);
+        const videoProgressContainer = document.getElementById(`video-progress-container-${id}`);
+        const videoTimeDisplay = document.getElementById(`video-time-display-${id}`);
+
+        if (!videoEl) return;
+
+        function updatePlayState() {
+          if (videoEl.paused) {
+            if (playIcon) playIcon.style.display = 'block';
+            if (pauseIcon) pauseIcon.style.display = 'none';
+          } else {
+            if (playIcon) playIcon.style.display = 'none';
+            if (pauseIcon) pauseIcon.style.display = 'block';
+          }
+        }
+
+        function togglePlay() {
+          if (videoEl.paused || videoEl.ended) {
+            videoEl.play();
+          } else {
+            videoEl.pause();
+          }
+          updatePlayState();
+        }
+
+        if (playBtn) playBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePlay();
+        });
+
+        videoEl.addEventListener('click', togglePlay);
+        videoEl.addEventListener('play', updatePlayState);
+        videoEl.addEventListener('pause', updatePlayState);
+
+        function updateMuteState() {
+          if (videoEl.muted) {
+            if (volumeHighIcon) volumeHighIcon.style.display = 'none';
+            if (volumeMuteIcon) volumeMuteIcon.style.display = 'block';
+          } else {
+            if (volumeHighIcon) volumeHighIcon.style.display = 'block';
+            if (volumeMuteIcon) volumeMuteIcon.style.display = 'none';
+          }
+        }
+
+        function toggleMute() {
+          videoEl.muted = !videoEl.muted;
+          updateMuteState();
+        }
+
+        if (muteBtn) muteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleMute();
+        });
+
+        if (fullscreenBtn && videoWrapper) {
+          fullscreenBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!document.fullscreenElement) {
+              if (videoWrapper.requestFullscreen) videoWrapper.requestFullscreen();
+              else if (videoEl.requestFullscreen) videoEl.requestFullscreen();
+            } else {
+              if (document.exitFullscreen) document.exitFullscreen();
+            }
+          });
+        }
+
+        function formatTime(sec) {
+          if (!sec || isNaN(sec)) return '0:00';
+          const m = Math.floor(sec / 60);
+          const s = Math.floor(sec % 60);
+          return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        videoEl.addEventListener('timeupdate', () => {
+          if (videoEl.duration) {
+            const pct = (videoEl.currentTime / videoEl.duration) * 100;
+            if (videoProgress) videoProgress.style.width = `${pct.toFixed(2)}%`;
+            if (videoTimeDisplay) {
+              videoTimeDisplay.textContent = `${formatTime(videoEl.currentTime)} / ${formatTime(videoEl.duration)}`;
+            }
+          }
+        });
+
+        videoEl.addEventListener('loadedmetadata', () => {
+          if (videoTimeDisplay && videoEl.duration) {
+            videoTimeDisplay.textContent = `0:00 / ${formatTime(videoEl.duration)}`;
+          }
+        });
+
+        if (videoProgressContainer) {
+          videoProgressContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const rect = videoProgressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            if (videoEl.duration) {
+              videoEl.currentTime = Math.max(0, Math.min(pos * videoEl.duration, videoEl.duration));
+            }
+          });
+        }
+
+        if (videoWrapper) {
+          let timer = null;
+          const overlay = videoWrapper.querySelector('.video-controls-overlay');
+          function wakeControls() {
+            if (overlay) overlay.classList.add('active');
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+              if (!videoEl.paused && overlay) {
+                overlay.classList.remove('active');
+              }
+            }, 3000);
+          }
+          videoWrapper.addEventListener('mousemove', wakeControls);
+          videoWrapper.addEventListener('touchstart', wakeControls, { passive: true });
+        }
+
+        updatePlayState();
+        updateMuteState();
+      }
+
+      setupVideo('malabar');
+      setupVideo('jewel');
+      setupVideo('wedding');
+      setupVideo('1');
+      setupVideo('2');
+      setupVideo('3');
+      setupVideo('gym');
+    })();
+
+    (function () {
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+
+      const TOTAL_FRAMES = 238;
+      const FOLDER_PATH = 'ezgif-34f30456234c0f43-jpg';
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const progressFill = document.getElementById('progress-fill');
+      const serviceRows = document.querySelectorAll('.service-row');
+
+      function getFrameSrc(index) {
+        const paddedIndex = String(index).padStart(3, '0');
+        return `${FOLDER_PATH}/ezgif-frame-${paddedIndex}.jpg`;
+      }
+
+      const images = new Array(TOTAL_FRAMES);
+      const isLoaded = new Array(TOTAL_FRAMES).fill(false);
+      let targetFrame = 0;
+      let currentFrame = 0;
+      let lastRenderedIndex = -1;
+      let lastDrawnImg = null;
+
+      function drawImageCover(img) {
+        if (!img || !img.complete || img.naturalWidth === 0) return;
+
+        const cw = canvas.width;
+        const ch = canvas.height;
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+
+        const scale = Math.max(cw / iw, ch / ih);
+        const nw = iw * scale;
+        const nh = ih * scale;
+        const nx = (cw - nw) * 0.5;
+        const ny = (ch - nh) * 0.5;
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, nx, ny, nw, nh);
+      }
+
+      function renderFrame(index) {
+        const targetIdx = Math.min(TOTAL_FRAMES - 1, Math.max(0, index));
+        const frameImg = images[targetIdx];
+
+        if (frameImg && (isLoaded[targetIdx] || frameImg.complete) && frameImg.naturalWidth > 0) {
+          drawImageCover(frameImg);
+          lastDrawnImg = frameImg;
+          return;
+        }
+
+        // Nearest loaded frame fallback
+        let nearestIndex = -1;
+        let minDistance = Infinity;
+
+        for (let i = 0; i < TOTAL_FRAMES; i++) {
+          const candidate = images[i];
+          if (candidate && (isLoaded[i] || candidate.complete) && candidate.naturalWidth > 0) {
+            const dist = Math.abs(i - targetIdx);
+            if (dist < minDistance) {
+              minDistance = dist;
+              nearestIndex = i;
+            }
+          }
+        }
+
+        if (nearestIndex !== -1 && images[nearestIndex]) {
+          drawImageCover(images[nearestIndex]);
+          lastDrawnImg = images[nearestIndex];
+        } else if (lastDrawnImg) {
+          drawImageCover(lastDrawnImg);
+        }
+      }
+
+      function resizeCanvas() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(window.innerWidth * dpr);
+        canvas.height = Math.round(window.innerHeight * dpr);
+
+        const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.round(currentFrame)));
+        renderFrame(frameIndex);
+      }
+
+      window.addEventListener('resize', resizeCanvas, { passive: true });
+
+      function onScroll() {
+        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        
+        // Cut the scroll animation cleanly where the footer ends
+        const footer = document.querySelector('footer');
+        let footerBottom = 0;
+        if (footer) {
+          footerBottom = footer.getBoundingClientRect().bottom + scrollY;
+        } else {
+          footerBottom = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.offsetHeight
+          );
+        }
+
+        const maxScroll = Math.max(1, footerBottom - window.innerHeight);
+        const scrollFraction = maxScroll > 0 ? Math.min(Math.max(scrollY / maxScroll, 0), 1) : 0;
+
+        targetFrame = scrollFraction * (TOTAL_FRAMES - 1);
+
+        // Update bottom progress bar
+        if (progressFill) {
+          progressFill.style.width = `${(scrollFraction * 100).toFixed(1)}%`;
+        }
+
+        // Dynamic highlight for service rows on the hero section
+        const heroSection = document.getElementById('hero-section');
+        if (heroSection) {
+          const heroRect = heroSection.getBoundingClientRect();
+          if (heroRect.top <= 100 && heroRect.bottom >= 100) {
+            const heroFraction = Math.min(Math.max(-heroRect.top / (heroRect.height - window.innerHeight || 1), 0), 1);
+            const activeIdx = Math.min(serviceRows.length - 1, Math.floor(heroFraction * serviceRows.length));
+            serviceRows.forEach((row, i) => {
+              if (i === activeIdx) row.classList.add('active');
+              else row.classList.remove('active');
+            });
+          }
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      document.addEventListener('scroll', onScroll, { passive: true });
+
+      // Click service rows to navigate smoothly
+      serviceRows.forEach(row => {
+        row.addEventListener('click', () => {
+          const target = document.querySelector(row.getAttribute('data-target'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Smooth Animation Loop
+      let lastTime = performance.now();
+      const SMOOTHING_SPEED = 12.0;
+
+      function animationLoop(now) {
+        const dt = Math.min((now - lastTime) / 1000, 0.1);
+        lastTime = now;
+
+        const factor = 1 - Math.exp(-SMOOTHING_SPEED * dt);
+        const diff = targetFrame - currentFrame;
+
+        if (Math.abs(diff) > 0.0001) {
+          currentFrame += diff * factor;
+        } else {
+          currentFrame = targetFrame;
+        }
+
+        const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.round(currentFrame)));
+        if (frameIndex !== lastRenderedIndex) {
+          renderFrame(frameIndex);
+          lastRenderedIndex = frameIndex;
+        }
+
+        requestAnimationFrame(animationLoop);
+      }
+
+      function loadSingleFrame(index) {
+        const img = new Image();
+        img.onload = () => {
+          if ('decode' in img) {
+            img.decode().catch(() => {}).finally(() => {
+              isLoaded[index] = true;
+              if (Math.round(currentFrame) === index) {
+                renderFrame(index);
+              }
+            });
+          } else {
+            isLoaded[index] = true;
+            if (Math.round(currentFrame) === index) {
+              renderFrame(index);
+            }
+          }
+        };
+        img.onerror = () => {
+          isLoaded[index] = false;
+        };
+        img.src = getFrameSrc(index + 1);
+        images[index] = img;
+      }
+
+      function startPreload() {
+        // Frame 0 loaded immediately for instant render
+        loadSingleFrame(0);
+
+        // Preload remaining frames
+        for (let i = 1; i < TOTAL_FRAMES; i++) {
+          loadSingleFrame(i);
+        }
+      }
+
+      resizeCanvas();
+      onScroll();
+      startPreload();
+      requestAnimationFrame(animationLoop);
+    })();
+  </script>
+</body>
+</html>
